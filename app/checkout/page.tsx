@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { User as UserIcon, ShieldCheck, ChevronRight, Plus, CheckCircle2, MapPin, Phone, Mail, ShoppingBag, Tag } from 'lucide-react';
+import { User as UserIcon, ShieldCheck, ChevronRight, Plus, CheckCircle2, MapPin, Phone, Mail, ShoppingBag, Tag, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { Address } from '../../types/user';
@@ -20,6 +20,7 @@ export default function CheckoutPage() {
    const [email, setEmail] = useState(user?.email || '');
    const [name, setName] = useState(user?.name || '');
    const [password, setPassword] = useState('');
+   const [showPassword, setShowPassword] = useState(false);
    const [isLoginView, setIsLoginView] = useState(false);
    const [authError, setAuthError] = useState('');
    const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
@@ -113,6 +114,16 @@ export default function CheckoutPage() {
          return;
       }
 
+      if (!isLoginView && phone.length !== 10) {
+         setAuthError('Mobile number must be exactly 10 digits');
+         return;
+      }
+      
+      if (password.length < 6) {
+         setAuthError('Password must be at least 6 characters');
+         return;
+      }
+
       try {
          if (isLoginView) {
             await login(email, password, false);
@@ -121,7 +132,11 @@ export default function CheckoutPage() {
          }
          setStep(2);
       } catch (err: any) {
-         setAuthError(err.message || (isLoginView ? 'Login failed' : 'Registration failed'));
+         let errMsg = err.message || (isLoginView ? 'Login failed' : 'Registration failed');
+         if (errMsg.includes('E11000') || errMsg.toLowerCase().includes('duplicate')) {
+            errMsg = 'Email or phone number is already registered. Please login instead.';
+         }
+         setAuthError(errMsg);
       }
    };
 
@@ -135,11 +150,12 @@ export default function CheckoutPage() {
 
       if (isAuthenticated) {
          try {
-            await addAddress(newAddress);
-            // The updated user will now have the address, and the UI will refresh via AuthContext
-            // We can find the newly added address (it will be the last one) to select it
-            // But wait, the server returns the updated user. 
-            // Let's just move to payment for now, and pick the last one.
+            const updatedUser = await addAddress(newAddress);
+            if (updatedUser && updatedUser.addresses && updatedUser.addresses.length > 0) {
+               // The newly added address is typically the last one in the array
+               const newlyAddedAddress = updatedUser.addresses[updatedUser.addresses.length - 1];
+               setSelectedAddress(newlyAddedAddress);
+            }
             setStep(3);
          } catch (err) {
             console.error('Failed to save address:', err);
@@ -308,22 +324,32 @@ export default function CheckoutPage() {
                               type="tel"
                               placeholder="Mobile number"
                               required={!isLoginView}
+                              maxLength={10}
+                              pattern="\d{10}"
                               value={phone}
-                              onChange={(e) => setPhone(e.target.value)}
+                              onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
                               className="flex-1 p-4 outline-none w-full bg-transparent font-medium"
                            />
                         </div>
                      )}
 
-                     <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm focus-within:border-[#cc2b2b] transition-colors group">
+                     <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm focus-within:border-[#cc2b2b] transition-colors group relative">
                         <input
-                           type="password"
-                           placeholder="Password"
+                           type={showPassword ? "text" : "password"}
+                           placeholder={isLoginView ? "Password" : "Password (min 6 characters)"}
                            required
+                           minLength={6}
                            value={password}
                            onChange={(e) => setPassword(e.target.value)}
-                           className="p-4 outline-none w-full bg-transparent font-medium"
+                           className="flex-1 p-4 outline-none w-full bg-transparent font-medium"
                         />
+                        <button 
+                           type="button" 
+                           onClick={() => setShowPassword(!showPassword)}
+                           className="p-4 text-gray-400 hover:text-gray-600 transition-colors"
+                        >
+                           {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                        </button>
                      </div>
 
                      {authError && <p className="text-red-500 text-xs font-bold uppercase tracking-widest text-center mt-2">{authError}</p>}

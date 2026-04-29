@@ -9,7 +9,7 @@ interface AuthContextType extends AuthState {
   login: (email: string, password: string, redirect?: boolean) => Promise<void>;
   signup: (userData: any, redirect?: boolean) => Promise<void>;
   logout: () => void;
-  addAddress: (addressData: any) => Promise<void>;
+  addAddress: (addressData: any) => Promise<any>;
   toggleWishlist: (productId: string) => Promise<void>;
 }
 
@@ -125,7 +125,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const updatedUser = response.data.user;
       localStorage.setItem('user', JSON.stringify(updatedUser));
       setState(prev => ({ ...prev, user: updatedUser }));
+      return updatedUser;
     }
+    return null;
   };
 
   const toggleWishlist = async (productId: string) => {
