@@ -13,11 +13,11 @@ export async function generateStaticParams() {
    try {
       const response = await api.get('/products');
       return response.data.products.map((product: Product) => ({
-         slug: product.slug,
+         slug: String(product.slug || product._id || product.id),
       }));
    } catch (error) {
       return data.products.map(product => ({
-         slug: product.slug,
+         slug: String(product.slug || product.id),
       }));
    }
 }
@@ -31,10 +31,10 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
    try {
       const response = await api.get('/products');
       products = response.data.products;
-      product = products.find((p: Product) => p.slug === slug) || null;
+      product = products.find((p: Product) => p.slug === slug || String(p._id) === slug || String(p.id) === slug) || null;
    } catch (error) {
       console.error('Failed to fetch product:', error);
-      product = (data.products.find(p => p.slug === slug) as Product) || null;
+      product = (data.products.find(p => p.slug === slug || String((p as any)._id) === slug || String(p.id) === slug) as Product) || null;
       products = data.products;
    }
 
@@ -45,7 +45,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
 
    const productImage = product.image?.startsWith('http')
       ? product.image
-      : (product.image?.startsWith('/') ? product.image : `https://e-comm-backend-tnab.onrender.com${product.image}`);
+      : (product.image?.startsWith('/') ? product.image : `http://localhost:4000${product.image}`);
 
    return (
       <div className="max-w-7xl mx-auto w-full px-6 py-12 mb-10">

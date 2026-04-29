@@ -39,7 +39,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
          <div className="bg-[#f2f2f2] aspect-[5/4] relative overflow-hidden mb-4 rounded-xl">
             <Image
-               src={product.image?.startsWith('http') ? product.image : (product.image?.startsWith('/') ? product.image : `https://e-comm-backend-tnab.onrender.com${product.image}`)}
+               src={product.image?.startsWith('http') ? product.image : (product.image?.startsWith('/') ? product.image : `http://localhost:4000${product.image}`)}
                alt={product.name}
                fill
                className="object-cover group-hover:scale-105 transition-transform duration-500"

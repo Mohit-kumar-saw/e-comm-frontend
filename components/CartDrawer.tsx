@@ -88,7 +88,7 @@ const CartDrawer: React.FC = () => {
                 {/* Product Image */}
                 <div className="relative w-24 h-28 bg-gray-50 rounded overflow-hidden flex-shrink-0 border border-gray-100">
                   <Image
-                    src={item.product.image?.startsWith('http') ? item.product.image : (item.product.image?.startsWith('/') ? item.product.image : `https://e-comm-backend-tnab.onrender.com${item.product.image}`)}
+                    src={item.product.image?.startsWith('http') ? item.product.image : (item.product.image?.startsWith('/') ? item.product.image : `http://localhost:4000${item.product.image}`)}
                     alt={item.product.name}
                     fill
                     className="object-cover"
