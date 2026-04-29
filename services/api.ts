@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://e-comm-backend-tnab.onrender.com/api';
 
 const getHeaders = () => {
   const headers: Record<string, string> = {

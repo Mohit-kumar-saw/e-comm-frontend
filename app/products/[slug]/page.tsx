@@ -45,7 +45,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
 
    const productImage = product.image?.startsWith('http')
       ? product.image
-      : (product.image?.startsWith('/') ? product.image : `http://localhost:4000${product.image}`);
+      : (product.image?.startsWith('/') ? product.image : `https://e-comm-backend-tnab.onrender.com${product.image}`);
 
    return (
       <div className="max-w-7xl mx-auto w-full px-6 py-12 mb-10">
