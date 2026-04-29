@@ -1,0 +1,185 @@
+{
+  "categories": [
+    {
+      "id": "c1",
+      "name": "Sneakers",
+      "slug": "sneakers",
+      "image": "/images/sneaker_product_1_1777449355597.png"
+    },
+    {
+      "id": "c2",
+      "name": "Brogues",
+      "slug": "brogues",
+      "image": "/images/sneaker_product_2_1777449383698.png"
+    },
+    {
+      "id": "c3",
+      "name": "Loafers",
+      "slug": "loafers",
+      "image": "/images/sneaker_product_1_1777449355597.png"
+    },
+    {
+      "id": "c4",
+      "name": "Mules",
+      "slug": "mules",
+      "image": "/images/sneaker_product_2_1777449383698.png"
+    },
+    {
+      "id": "c5",
+      "name": "High-tops",
+      "slug": "high-tops",
+      "image": "/images/sneaker_product_1_1777449355597.png"
+    },
+    {
+      "id": "c6",
+      "name": "All Women's Collection",
+      "slug": "womens",
+      "image": "/images/sneaker_product_2_1777449383698.png"
+    }
+  ],
+  "products": [
+    {
+      "id": "p1",
+      "name": "Luna Bomber Sneakers",
+      "slug": "luna-bomber-sneakers",
+      "price": 6490,
+      "categoryId": "c1",
+      "categorySlug": "sneakers",
+      "rating": 5.0,
+      "reviewsCount": 1,
+      "isNewArrival": true,
+      "image": "/images/sneaker_product_1_1777449355597.png",
+      "description": "Premium handcrafted sneakers designed for maximum comfort and style."
+    },
+    {
+      "id": "p2",
+      "name": "Bori Bomber Sneakers",
+      "slug": "bori-bomber-sneakers",
+      "price": 5490,
+      "categoryId": "c6",
+      "categorySlug": "womens",
+      "rating": 5.0,
+      "reviewsCount": 4,
+      "isNewArrival": true,
+      "image": "/images/sneaker_product_2_1777449383698.png",
+      "description": "Luxurious denim-finish sneakers offering a unique and versatile look."
+    },
+    {
+      "id": "p3",
+      "name": "Maati Bomber Sneakers",
+      "slug": "maati-bomber-sneakers",
+      "price": 5490,
+      "categoryId": "c6",
+      "categorySlug": "womens",
+      "rating": 4.5,
+      "reviewsCount": 3,
+      "isNewArrival": false,
+      "image": "/images/sneaker_product_1_1777449355597.png",
+      "description": "Earthy tones over premium canvas, making every step grounded yet bold."
+    },
+    {
+      "id": "p4",
+      "name": "Riot Bomber Sneakers",
+      "slug": "riot-bomber-sneakers",
+      "price": 5490,
+      "categoryId": "c1",
+      "categorySlug": "sneakers",
+      "rating": 4.5,
+      "reviewsCount": 5,
+      "isNewArrival": true,
+      "image": "/images/sneaker_product_2_1777449383698.png",
+      "description": "Edgy and vivid, stand out from the crowd with the Riot."
+    },
+    {
+      "id": "p5",
+      "name": "Feroza Bomber Sneakers",
+      "slug": "feroza-bomber-sneakers",
+      "price": 5990,
+      "categoryId": "c1",
+      "categorySlug": "sneakers",
+      "rating": 5.0,
+      "reviewsCount": 2,
+      "isNewArrival": false,
+      "image": "/images/sneaker_product_1_1777449355597.png",
+      "description": "Timeless craftsmanship combined with modern aesthetics."
+    },
+    {
+      "id": "p6",
+      "name": "Project Ink Bomber Sneakers",
+      "slug": "project-ink-bomber-sneakers",
+      "price": 5490,
+      "originalPrice": 5990,
+      "categoryId": "c1",
+      "categorySlug": "sneakers",
+      "rating": 4.0,
+      "reviewsCount": 10,
+      "isNewArrival": false,
+      "image": "/images/sneaker_product_2_1777449383698.png",
+      "description": "A nod to street art and contemporary culture."
+    },
+    {
+      "id": "p7",
+      "name": "TOTEM Bomber (Bomber) Sneakers",
+      "slug": "totem-bomber-sneakers",
+      "price": 6990,
+      "categoryId": "c6",
+      "categorySlug": "womens",
+      "rating": 5.0,
+      "reviewsCount": 3,
+      "isNewArrival": true,
+      "image": "/images/totem_sneaker_1777451633097.png",
+      "description": "Bold artistic hand-painted eye motifs offering a dramatic contrast."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "What is the return policy?",
+      "answer": "We offer a 15-day return policy for unused items in their original packaging. Custom-made shoes cannot be returned."
+    },
+    {
+      "question": "How long will it take for my order to arrive?",
+      "answer": "Our handcrafted process takes time. Standard orders are shipped within 7-10 business days."
+    },
+    {
+      "question": "Do you ship internationally?",
+      "answer": "Yes, we ship globally! International shipping rates are calculated at checkout."
+    },
+    {
+      "question": "Are these shoes made from genuine leather?",
+      "answer": "Yes, we source the finest quality sustainable leather and artisan materials for all our footwear."
+    }
+  ],
+  "reviews": [
+    {
+      "productId": "p1",
+      "author": "Arjun S.",
+      "rating": 5,
+      "date": "October 12, 2023",
+      "content": "These are absolutely stunning! The craftsmanship is top-notch and they are surprisingly comfortable right out of the box."
+    },
+    {
+      "productId": "p2",
+      "author": "Karan M.",
+      "rating": 4.5,
+      "date": "November 05, 2023",
+      "content": "Very unique design, I get compliments every time I wear them. Fits slightly wide but generally true to size."
+    },
+    {
+      "productId": "p2",
+      "author": "Ravi K.",
+      "rating": 5,
+      "date": "December 20, 2023",
+      "content": "Incredible shoes. Rangeela always delivers on quality and style."
+    }
+  ],
+  "searchSuggestions": [
+    "sneakers",
+    "simha",
+    "sneakers men",
+    "Slipons"
+  ],
+  "featuredSearches": [
+    "p5",
+    "p6"
+  ]
+}
