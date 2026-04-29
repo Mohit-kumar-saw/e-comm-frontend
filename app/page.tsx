@@ -15,6 +15,7 @@ export default function Home() {
   const [heroIndex, setHeroIndex] = useState(0);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeBannerIndex, setActiveBannerIndex] = useState(0);
 
   const heroBanners = [
 
@@ -80,11 +81,11 @@ export default function Home() {
   const riotBomber = products.find(p => p.slug === 'riot-bomber-sneakers') || products[0] || data.products[0];
 
   const infoBanners = [
-    { title: "Indian Artisanal Craftsmanship", bg: "bg-[#b32b2b]", icon: <Sparkles className="w-6 h-6 md:w-8 md:h-8" /> },
-    { title: "Premium Quality Materials", bg: "bg-[#7d7d7d]", icon: <ShieldCheck className="w-6 h-6 md:w-8 md:h-8" /> },
-    { title: "Indian Heritage and Storytelling", bg: "bg-[#7d7d7d]", icon: <Landmark className="w-6 h-6 md:w-8 md:h-8" /> },
-    { title: "Distinctive Statement Designs", bg: "bg-[#7d7d7d]", icon: <Palette className="w-6 h-6 md:w-8 md:h-8" /> },
-    { title: "Support for Local Artisanal Families", bg: "bg-[#7d7d7d]", icon: <HeartHandshake className="w-6 h-6 md:w-8 md:h-8" /> }
+    { title: "Indian Artisanal Craftsmanship", content: "Each pair is meticulously handcrafted by skilled artisans, ensuring unparalleled quality and attention to detail.", icon: <Sparkles className="w-5 h-5" />, image: "/images/shoemaking_process_1777453349046.png" },
+    { title: "Premium Quality Materials", content: "We source only the finest, most resilient leather and textiles. This ensures your footwear is visually stunning, durable, and comfortable.", icon: <ShieldCheck className="w-5 h-5" />, image: "/images/totem_sneaker_1777451633097.png" },
+    { title: "Indian Heritage and Storytelling", content: "Every design draws inspiration from India's profound cultural tapestry and artistry. We interpret vibrant traditional motifs into contemporary pieces.", icon: <Landmark className="w-5 h-5" />, image: "/images/hero_banner_shoes_1777449275010.png" },
+    { title: "Distinctive Statement Designs", content: "Rangeela Studio footwear breaks the mold. Our striking silhouettes and unconventional detailing are for the unapologetic fashion connoisseur.", icon: <Palette className="w-5 h-5" />, image: "/images/sneaker_product_1_1777449355597.png" },
+    { title: "Support for Local Artisanal Families", content: "Your purchase directly sustains local artisan communities across India, empowering them with fair wages and preserving increasingly rare crafts.", icon: <HeartHandshake className="w-5 h-5" />, image: "/images/hero_banner_womens_1777451578867.png" }
   ];
 
   return (
@@ -172,35 +173,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Info Ribbon */}
-      <section className="w-full bg-[#fcfcfc] py-16 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row shadow-2xl border border-gray-100 rounded-lg overflow-hidden min-h-[120px]">
-          {infoBanners.map((banner, i) => (
-            <div key={i} className={`flex-1 ${banner.bg} text-white flex flex-row md:flex-col items-center justify-center p-6 gap-4 md:gap-5 text-center border-b md:border-b-0 md:border-r last:border-r-0 border-white/10 transition-all hover:brightness-110 group cursor-default`}>
-              <div className="transition-transform duration-300 group-hover:scale-110">
-                {banner.icon}
-              </div>
-              <span className="text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase leading-tight w-full text-center">
-                {banner.title}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Why Choose Rangeela */}
+      {/* Why Choose Rangeela + Interactive Info Ribbon */}
       <section className="py-20 bg-[#f4f4f4] w-full">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center overflow-visible">
-          <div className="w-full md:w-1/2 p-8 md:p-20 flex flex-col justify-center text-center">
-            <h2 className="text-4xl md:text-5xl font-light tracking-wide text-[#111] mb-8">Why choose Rangeela Studio?</h2>
-            <h3 className="text-xl font-bold tracking-widest uppercase text-[#222] mb-6">Indian Artisanal Craftsmanship</h3>
-            <p className="text-gray-600 leading-relaxed max-w-sm mx-auto relative z-10 text-sm md:text-base">
-              Each pair is meticulously handcrafted by skilled artisans, ensuring unparalleled quality and attention to detail.
-            </p>
+        <div className="max-w-7xl mx-auto px-6">
+          
+          {/* Thin Banner Strip */}
+          <div className="flex flex-col md:flex-row min-h-[80px] w-full shadow-lg rounded-lg overflow-hidden border border-gray-200 mb-16 bg-white shrink-0">
+            {infoBanners.map((banner, i) => (
+              <button 
+                key={i} 
+                onClick={() => setActiveBannerIndex(i)}
+                className={`flex-1 flex flex-col items-center justify-center p-3 gap-2 text-center border-b md:border-b-0 md:border-r last:border-r-0 border-black/10 transition-all cursor-pointer ${i === activeBannerIndex ? 'bg-[#b32b2b] text-white shadow-inner scale-[1.02] z-10' : 'bg-[#7d7d7d] text-white hover:bg-[#868686]'}`}
+              >
+                <div className={`transition-transform duration-300 ${i === activeBannerIndex ? 'scale-110' : 'opacity-80'}`}>
+                  {banner.icon}
+                </div>
+                <span className="text-[9px] md:text-[10px] font-bold tracking-[0.1em] uppercase leading-tight w-full">
+                  {banner.title}
+                </span>
+              </button>
+            ))}
           </div>
-          <div className="w-full md:w-1/2 p-6 md:p-0">
-            <div className="relative aspect-square md:aspect-[5/4] rounded-xl overflow-hidden shadow-2xl">
-              <Image src="/images/shoemaking_process_1777453349046.png" alt="Shoemaking process" fill className="object-cover transition-transform hover:scale-105 duration-700" />
+
+          {/* Dynamic Content Section */}
+          <div className="flex flex-col md:flex-row items-center overflow-visible">
+            <div className="w-full md:w-1/2 p-8 md:p-12 lg:p-20 flex flex-col justify-center text-center">
+              <h2 className="text-4xl md:text-5xl font-light tracking-wide text-[#111] mb-8">Why choose Rangeela Studio?</h2>
+              
+              <div key={activeBannerIndex} className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                 <h3 className="text-xl font-bold tracking-widest uppercase text-[#222] mb-6">
+                   {infoBanners[activeBannerIndex].title}
+                 </h3>
+                 <p className="text-gray-600 leading-relaxed max-w-sm mx-auto relative z-10 text-sm md:text-base">
+                   {infoBanners[activeBannerIndex].content}
+                 </p>
+              </div>
+            </div>
+            
+            <div className="w-full md:w-1/2 p-6 md:p-0">
+              <div className="relative aspect-square md:aspect-[5/4] rounded-xl overflow-hidden shadow-2xl">
+                <Image 
+                   key={infoBanners[activeBannerIndex].image}
+                   src={infoBanners[activeBannerIndex].image} 
+                   alt={infoBanners[activeBannerIndex].title} 
+                   fill 
+                   className="object-cover transition-transform hover:scale-105 duration-700 animate-in fade-in zoom-in-95" 
+                />
+              </div>
             </div>
           </div>
         </div>
