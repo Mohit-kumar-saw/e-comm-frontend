@@ -10,7 +10,7 @@ import { api } from '../../services/api';
 import { CartItem } from '../../types/cart';
 
 export default function CheckoutPage() {
-   const { user, isAuthenticated, addAddress } = useAuth();
+   const { user, isAuthenticated, addAddress, signup, login } = useAuth();
    const { cart, cartTotal, clearCart } = useCart();
    const [step, setStep] = useState(isAuthenticated ? 2 : 1);
    const [paymentMethod, setPaymentMethod] = useState('UPI');
@@ -18,6 +18,10 @@ export default function CheckoutPage() {
    const [orderSuccess, setOrderSuccess] = useState(false);
    const [phone, setPhone] = useState(user?.phoneNumber || '');
    const [email, setEmail] = useState(user?.email || '');
+   const [name, setName] = useState(user?.name || '');
+   const [password, setPassword] = useState('');
+   const [isLoginView, setIsLoginView] = useState(false);
+   const [authError, setAuthError] = useState('');
    const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
    const [showAddressForm, setShowAddressForm] = useState(false);
 
@@ -100,10 +104,24 @@ export default function CheckoutPage() {
       }
    };
 
-   const handleContinue = (e: React.FormEvent) => {
+   const handleContinue = async (e: React.FormEvent) => {
       e.preventDefault();
-      if ((phone && email) || isAuthenticated) {
-         setStep(2); // Move to Address
+      setAuthError('');
+      
+      if (isAuthenticated) {
+         setStep(2);
+         return;
+      }
+
+      try {
+         if (isLoginView) {
+            await login(email, password, false);
+         } else {
+            await signup({ name, email, password, phoneNumber: phone }, false);
+         }
+         setStep(2);
+      } catch (err: any) {
+         setAuthError(err.message || (isLoginView ? 'Login failed' : 'Registration failed'));
       }
    };
 
@@ -257,19 +275,19 @@ export default function CheckoutPage() {
                   <p className="text-gray-500 mb-10 text-center tracking-wide text-sm font-medium">Verify your contact info to proceed</p>
 
                   <form className="w-full space-y-5" onSubmit={handleContinue}>
-                     <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm focus-within:border-[#cc2b2b] transition-colors group">
-                        <div className="bg-gray-50 px-4 py-4 border-r border-gray-200 flex items-center font-medium text-gray-700 text-sm">
-                           🇮🇳 +91
+                     {!isLoginView && (
+                        <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm focus-within:border-[#cc2b2b] transition-colors group">
+                           <input
+                              type="text"
+                              placeholder="Full Name"
+                              required={!isLoginView}
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
+                              className="p-4 outline-none w-full bg-transparent font-medium"
+                           />
                         </div>
-                        <input
-                           type="tel"
-                           placeholder="Mobile number"
-                           required
-                           value={phone}
-                           onChange={(e) => setPhone(e.target.value)}
-                           className="flex-1 p-4 outline-none w-full bg-transparent font-medium"
-                        />
-                     </div>
+                     )}
+                     
                      <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm focus-within:border-[#cc2b2b] transition-colors group">
                         <input
                            type="email"
@@ -280,6 +298,46 @@ export default function CheckoutPage() {
                            className="p-4 outline-none w-full bg-transparent font-medium"
                         />
                      </div>
+
+                     {!isLoginView && (
+                        <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm focus-within:border-[#cc2b2b] transition-colors group">
+                           <div className="bg-gray-50 px-4 py-4 border-r border-gray-200 flex items-center font-medium text-gray-700 text-sm">
+                              🇮🇳 +91
+                           </div>
+                           <input
+                              type="tel"
+                              placeholder="Mobile number"
+                              required={!isLoginView}
+                              value={phone}
+                              onChange={(e) => setPhone(e.target.value)}
+                              className="flex-1 p-4 outline-none w-full bg-transparent font-medium"
+                           />
+                        </div>
+                     )}
+
+                     <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm focus-within:border-[#cc2b2b] transition-colors group">
+                        <input
+                           type="password"
+                           placeholder="Password"
+                           required
+                           value={password}
+                           onChange={(e) => setPassword(e.target.value)}
+                           className="p-4 outline-none w-full bg-transparent font-medium"
+                        />
+                     </div>
+
+                     {authError && <p className="text-red-500 text-xs font-bold uppercase tracking-widest text-center mt-2">{authError}</p>}
+
+                     <div className="text-center mt-4">
+                        <button 
+                           type="button" 
+                           onClick={() => setIsLoginView(!isLoginView)} 
+                           className="text-xs font-bold text-gray-500 hover:text-black uppercase tracking-widest underline underline-offset-4"
+                        >
+                           {isLoginView ? 'Need an account? Register' : 'Already have an account? Login'}
+                        </button>
+                     </div>
+
                      <label className="flex items-center gap-3 text-sm text-gray-700 mt-6 cursor-pointer font-medium select-none group">
                         <input type="checkbox" defaultChecked className="rounded text-black accent-black w-5 h-5 cursor-pointer group-hover:scale-110 transition-transform" />
                         Send me updates on WhatsApp

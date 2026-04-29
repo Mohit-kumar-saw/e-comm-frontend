@@ -6,8 +6,8 @@ import { api } from '../services/api';
 import { useRouter } from 'next/navigation';
 
 interface AuthContextType extends AuthState {
-  login: (email: string, password: string) => Promise<void>;
-  signup: (userData: any) => Promise<void>;
+  login: (email: string, password: string, redirect?: boolean) => Promise<void>;
+  signup: (userData: any, redirect?: boolean) => Promise<void>;
   logout: () => void;
   addAddress: (addressData: any) => Promise<void>;
   toggleWishlist: (productId: string) => Promise<void>;
@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initAuth();
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string, redirect: boolean = true) => {
     const response = await api.post('/auth/login', { email, password });
     if (response.status === 'success') {
       const { token, data } = response;
@@ -79,11 +79,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isLoading: false,
       });
       
-      router.push('/profile');
+      if (redirect) {
+        router.push('/profile');
+      }
     }
   };
 
-  const signup = async (userData: any) => {
+  const signup = async (userData: any, redirect: boolean = true) => {
     const response = await api.post('/auth/register', userData);
     if (response.status === 'success') {
       const { token, data } = response;
@@ -99,7 +101,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isLoading: false,
       });
       
-      router.push('/profile');
+      if (redirect) {
+        router.push('/profile');
+      }
     }
   };
 
